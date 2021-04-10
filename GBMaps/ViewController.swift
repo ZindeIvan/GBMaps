@@ -8,6 +8,7 @@
 import UIKit
 import GoogleMaps
 import CoreLocation
+import RealmSwift
 
 class ViewController: UIViewController {
     
@@ -40,9 +41,31 @@ class ViewController: UIViewController {
     }
     
     @IBAction private func stopRecord(_ sender: Any) {
+        locationManager?.stopUpdatingLocation()
+        try? RealmService.shared?.deleteAll()
+        var points : [MapPoint] = []
+        for i in 0...Int(routePath?.count() ?? 0) {
+            guard let pathCoordinate = routePath?.coordinate(at: UInt(i)) else { return }
+            let point = MapPoint()
+            point.id = "\(pathCoordinate.latitude)-\(pathCoordinate.longitude)"
+            point.latitude = pathCoordinate.latitude
+            point.longitude = pathCoordinate.longitude
+            points.append(point)
+        }
+        try? RealmService.shared?.saveInRealm(objects: points)
     }
     
     @IBAction private func loadRecord(_ sender: Any) {
+        routePath? = GMSMutablePath()
+        let points : Results<MapPoint>? = RealmService.shared?.loadFromRealm()
+        points?.forEach({ (point) in
+            let coordinate = CLLocationCoordinate2D(latitude: point.latitude, longitude: point.longitude)
+            routePath?.add(coordinate)
+        })
+        
+        route?.path = routePath
+        let bounds = GMSCoordinateBounds(path: routePath ?? GMSMutablePath())
+        mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 15.0))
     }
     
     override func viewDidLoad() {
