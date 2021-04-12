@@ -1,8 +1,8 @@
 //
-//  ViewController.swift
+//  MapViewController.swift
 //  GBMaps
 //
-//  Created by Зинде Иван on 4/6/21.
+//  Created by Зинде Иван on 4/12/21.
 //
 
 import UIKit
@@ -10,13 +10,17 @@ import GoogleMaps
 import CoreLocation
 import RealmSwift
 
-class ViewController: UIViewController {
-    
-    // MARK: - IBOutlets
-    
-    @IBOutlet private weak var mapView: GMSMapView!
+class MapViewController: UIViewController {
     
     // MARK: - Private properties
+    
+    private lazy var mapView: MapView = {
+        return MapView()
+    }()
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var locationManager: CLLocationManager?
     
@@ -33,37 +37,42 @@ class ViewController: UIViewController {
     
     private let zoom : Float = 17.0
     
-    private let pathColor : UIColor = .systemGreen
+    private let pathColor : UIColor = .magenta
     
     private let pathWidth : Float = 5.0
     
     private let startingLocation : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 55.751244, longitude: 37.618423)
     
-    // MARK: - IBAction
+    // MARK: - LifeCycle
     
-    @IBAction private func startRecord(_ sender: Any) {
-        configureRoute()
-        locationManager?.startUpdatingLocation()
-    }
-    
-    @IBAction private func stopRecord(_ sender: Any) {
-        locationManager?.stopUpdatingLocation()
-        saveRouteInRealm()
-    }
-    
-    @IBAction private func loadRecord(_ sender: Any) {
-        loadRouteFromRealm()
-        let bounds = GMSCoordinateBounds(path: routePath ?? GMSMutablePath())
-        mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: CGFloat(zoom)))
+    init() {
+        super.init(nibName: nil, bundle: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUI()
         configureCamera()
         configureLocationManager()
     }
     
+    override func loadView() {
+        view = mapView
+    }
+    
     // MARK: - Private methods
+    
+    private func configureUI() {
+        mapView.loadRouteButton.addTarget(self,
+                                          action: #selector(loadRouteButtonAction),
+                                          for: .touchUpInside)
+        mapView.startRecordButton.addTarget(self,
+                                            action: #selector(startRecordButtonAction),
+                                            for: .touchUpInside)
+        mapView.stopRecordButton.addTarget(self,
+                                           action: #selector(stopRecordButtonAction),
+                                           for: .touchUpInside)
+    }
     
     private func configureLocationManager() {
         locationManager = CLLocationManager()
@@ -77,11 +86,11 @@ class ViewController: UIViewController {
         let camera = GMSCameraPosition.camera(withLatitude: startingLocation.latitude,
                                               longitude: startingLocation.longitude,
                                               zoom: zoom)
-        mapView.camera = camera
+        mapView.mapView.camera = camera
     }
     
     private func setLocation(coordinate: CLLocationCoordinate2D) {
-        mapView.animate(toLocation: coordinate)
+        mapView.mapView.animate(toLocation: coordinate)
     }
     
     private func configureRoute() {
@@ -90,13 +99,13 @@ class ViewController: UIViewController {
         route?.strokeColor = pathColor
         route?.strokeWidth = CGFloat(pathWidth)
         routePath = GMSMutablePath()
-        route?.map = mapView
+        route?.map = mapView.mapView
     }
     
     private func saveRouteInRealm() {
         try? RealmService.shared?.deleteAll()
         var points : [MapPoint] = []
-        let  pathPointsCount = routePath?.count() ?? 0
+        let  pathPointsCount = routePath?.count() ?? 1
         for i in 0...pathPointsCount - 1 {
             guard let pathCoordinate = routePath?.coordinate(at: UInt(i)) else { return }
             let point = MapPoint()
@@ -115,10 +124,25 @@ class ViewController: UIViewController {
         route?.path = routePath
     }
 
+    @objc private func loadRouteButtonAction(sender: UIButton!) {
+        loadRouteFromRealm()
+        let bounds = GMSCoordinateBounds(path: routePath ?? GMSMutablePath())
+        mapView.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: CGFloat(zoom)))
+    }
+    
+    @objc private func startRecordButtonAction(sender: UIButton!) {
+        configureRoute()
+        locationManager?.startUpdatingLocation()
+    }
+    
+    @objc private func stopRecordButtonAction(sender: UIButton!) {
+        locationManager?.stopUpdatingLocation()
+        saveRouteInRealm()
+    }
 }
 
 // MARK: - CLLocationManagerDelegate methods
-extension ViewController : CLLocationManagerDelegate {
+extension MapViewController : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
