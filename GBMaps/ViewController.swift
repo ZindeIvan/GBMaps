@@ -12,13 +12,18 @@ import RealmSwift
 
 class ViewController: UIViewController {
     
+    // MARK: - IBOutlets
+    
+    @IBOutlet private weak var mapView: GMSMapView!
+    
+    // MARK: - Private properties
+    
     private var locationManager: CLLocationManager?
     
     private var coordinate : CLLocationCoordinate2D? {
         didSet {
             guard let coordinate = self.coordinate else { return }
             setLocation(coordinate: coordinate)
-//            setMarker(coordinate: coordinate)
         }
     }
     
@@ -28,44 +33,28 @@ class ViewController: UIViewController {
     
     private let zoom : Float = 17.0
     
+    private let pathColor : UIColor = .systemGreen
+    
+    private let pathWidth : Float = 5.0
+    
     private let startingLocation : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 55.751244, longitude: 37.618423)
     
-    @IBOutlet private weak var mapView: GMSMapView!
+    // MARK: - IBAction
     
     @IBAction private func startRecord(_ sender: Any) {
-        route?.map = nil
-        route = GMSPolyline()
-        routePath = GMSMutablePath()
-        route?.map = mapView
+        configureRoute()
         locationManager?.startUpdatingLocation()
     }
     
     @IBAction private func stopRecord(_ sender: Any) {
         locationManager?.stopUpdatingLocation()
-        try? RealmService.shared?.deleteAll()
-        var points : [MapPoint] = []
-        for i in 0...Int(routePath?.count() ?? 0) {
-            guard let pathCoordinate = routePath?.coordinate(at: UInt(i)) else { return }
-            let point = MapPoint()
-            point.id = "\(pathCoordinate.latitude)-\(pathCoordinate.longitude)"
-            point.latitude = pathCoordinate.latitude
-            point.longitude = pathCoordinate.longitude
-            points.append(point)
-        }
-        try? RealmService.shared?.saveInRealm(objects: points)
+        saveRouteInRealm()
     }
     
     @IBAction private func loadRecord(_ sender: Any) {
-        routePath? = GMSMutablePath()
-        let points : Results<MapPoint>? = RealmService.shared?.loadFromRealm()
-        points?.forEach({ (point) in
-            let coordinate = CLLocationCoordinate2D(latitude: point.latitude, longitude: point.longitude)
-            routePath?.add(coordinate)
-        })
-        
-        route?.path = routePath
+        loadRouteFromRealm()
         let bounds = GMSCoordinateBounds(path: routePath ?? GMSMutablePath())
-        mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 15.0))
+        mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: CGFloat(zoom)))
     }
     
     override func viewDidLoad() {
@@ -73,6 +62,8 @@ class ViewController: UIViewController {
         configureCamera()
         configureLocationManager()
     }
+    
+    // MARK: - Private methods
     
     private func configureLocationManager() {
         locationManager = CLLocationManager()
@@ -93,14 +84,40 @@ class ViewController: UIViewController {
         mapView.animate(toLocation: coordinate)
     }
     
-    private func setMarker(coordinate: CLLocationCoordinate2D) {
-        let marker = GMSMarker()
-        marker.position = coordinate
-        marker.map = mapView
+    private func configureRoute() {
+        route?.map = nil
+        route = GMSPolyline()
+        route?.strokeColor = pathColor
+        route?.strokeWidth = CGFloat(pathWidth)
+        routePath = GMSMutablePath()
+        route?.map = mapView
+    }
+    
+    private func saveRouteInRealm() {
+        try? RealmService.shared?.deleteAll()
+        var points : [MapPoint] = []
+        let  pathPointsCount = routePath?.count() ?? 0
+        for i in 0...pathPointsCount - 1 {
+            guard let pathCoordinate = routePath?.coordinate(at: UInt(i)) else { return }
+            let point = MapPoint()
+            point.id = Int(i)
+            point.latitude = pathCoordinate.latitude
+            point.longitude = pathCoordinate.longitude
+            points.append(point)
+        }
+        try? RealmService.shared?.saveInRealm(objects: points)
+    }
+    
+    private func loadRouteFromRealm() {
+        routePath? = GMSMutablePath()
+        let points : Results<MapPoint>? = RealmService.shared?.loadFromRealm()
+        points?.forEach { routePath?.add(CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)) }
+        route?.path = routePath
     }
 
 }
 
+// MARK: - CLLocationManagerDelegate methods
 extension ViewController : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

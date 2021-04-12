@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 class MapPoint: Object {
-    @objc dynamic var id : String = ""
+    @objc dynamic var id : Int = 0
     @objc dynamic var latitude : Double = 0.0
     @objc dynamic var longitude : Double = 0.0
     
