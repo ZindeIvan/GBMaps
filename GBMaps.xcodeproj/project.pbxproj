@@ -14,6 +14,9 @@
 		B53C6C302625F5070015C1EC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C2F2625F5070015C1EC /* LoginView.swift */; };
 		B53C6C362625F65F0015C1EC /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C352625F65F0015C1EC /* SignUpView.swift */; };
 		B53C6C3A2625F6700015C1EC /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C392625F6700015C1EC /* SignUpViewController.swift */; };
+		B53C6C3E262626030015C1EC /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C3D262626030015C1EC /* BaseRouter.swift */; };
+		B53C6C432626274C0015C1EC /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C422626274C0015C1EC /* LoginRouter.swift */; };
+		B53C6C48262629DA0015C1EC /* SignUpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C47262629DA0015C1EC /* SignUpRouter.swift */; };
 		B58CF1F3261C815E00FEF9B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58CF1F2261C815E00FEF9B4 /* AppDelegate.swift */; };
 		B58CF1F5261C815E00FEF9B4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58CF1F4261C815E00FEF9B4 /* SceneDelegate.swift */; };
 		B58CF1FC261C816000FEF9B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B58CF1FB261C816000FEF9B4 /* Assets.xcassets */; };
@@ -34,6 +37,9 @@
 		B53C6C2F2625F5070015C1EC /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B53C6C352625F65F0015C1EC /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		B53C6C392625F6700015C1EC /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		B53C6C3D262626030015C1EC /* BaseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
+		B53C6C422626274C0015C1EC /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		B53C6C47262629DA0015C1EC /* SignUpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRouter.swift; sourceTree = "<group>"; };
 		B58CF1EF261C815E00FEF9B4 /* GBMaps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBMaps.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B58CF1F2261C815E00FEF9B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B58CF1F4261C815E00FEF9B4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				B53C6C182624AC280015C1EC /* Realm */,
+				B53C6C3C262625E70015C1EC /* Router */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -157,6 +164,7 @@
 			children = (
 				B53C6C2B2625F4E00015C1EC /* View */,
 				B53C6C2A2625F4D70015C1EC /* Controller */,
+				B53C6C41262627290015C1EC /* Router */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -182,6 +190,7 @@
 			children = (
 				B53C6C342625F63D0015C1EC /* View */,
 				B53C6C332625F6360015C1EC /* Controller */,
+				B53C6C46262629B90015C1EC /* Router */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -200,6 +209,30 @@
 				B53C6C352625F65F0015C1EC /* SignUpView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		B53C6C3C262625E70015C1EC /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				B53C6C3D262626030015C1EC /* BaseRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		B53C6C41262627290015C1EC /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				B53C6C422626274C0015C1EC /* LoginRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		B53C6C46262629B90015C1EC /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				B53C6C47262629DA0015C1EC /* SignUpRouter.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		B58CF1E6261C815E00FEF9B4 = {
@@ -373,14 +406,17 @@
 			files = (
 				B53C6C3A2625F6700015C1EC /* SignUpViewController.swift in Sources */,
 				B53C6C1D2624ACB70015C1EC /* MapView.swift in Sources */,
+				B53C6C48262629DA0015C1EC /* SignUpRouter.swift in Sources */,
 				B5B242522620BF8E00C5A7FB /* MapPoint.swift in Sources */,
 				B53C6C102624A9DC0015C1EC /* User.swift in Sources */,
 				B53C6C302625F5070015C1EC /* LoginView.swift in Sources */,
 				B58CF1F3261C815E00FEF9B4 /* AppDelegate.swift in Sources */,
 				B53C6C2D2625F4F80015C1EC /* LoginViewController.swift in Sources */,
+				B53C6C3E262626030015C1EC /* BaseRouter.swift in Sources */,
 				B53C6C362625F65F0015C1EC /* SignUpView.swift in Sources */,
 				B58CF1F5261C815E00FEF9B4 /* SceneDelegate.swift in Sources */,
 				B5B242552620C0FB00C5A7FB /* RealmService.swift in Sources */,
+				B53C6C432626274C0015C1EC /* LoginRouter.swift in Sources */,
 				B53C6C202624ACC80015C1EC /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

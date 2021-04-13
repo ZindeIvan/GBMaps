@@ -16,6 +16,12 @@ class SignUpViewController : UIViewController {
     private lazy var signUpView : SignUpView = {
         return SignUpView()
     }()
+    
+    private lazy var router : SignUpRouter = {
+        return SignUpRouter(controller: self)
+    }()
+    
+    // MARK: - init
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -61,10 +67,7 @@ class SignUpViewController : UIViewController {
         }
         
         UserDefaults.standard.set(true, forKey: "isLogin")
-        let mapViewController = MapViewController()
-        mapViewController.modalPresentationStyle = .fullScreen
-        mapViewController.modalTransitionStyle = .crossDissolve
-        present(mapViewController, animated: true, completion: nil)
+        router.toMap()
     }
     
     private func checkTextFields() -> Bool {

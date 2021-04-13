@@ -15,6 +15,12 @@ class LoginViewController : UIViewController {
     private lazy var loginView : LoginView = {
         return LoginView()
     }()
+    
+    private lazy var router : LoginRouter = {
+        return LoginRouter(controller: self)
+    }()
+    
+    // MARK: - init
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -55,19 +61,13 @@ class LoginViewController : UIViewController {
                 print("Wrong password")
             } else {
                 UserDefaults.standard.set(true, forKey: "isLogin")
-                let mapViewController = MapViewController()
-                mapViewController.modalPresentationStyle = .fullScreen
-                mapViewController.modalTransitionStyle = .crossDissolve
-                present(mapViewController, animated: true, completion: nil)
+                router.toMap()
             }
         }
     }
 
     @objc private func signUpButtonAction(sender: UIButton!) {
-        let signUpViewController = SignUpViewController()
-        signUpViewController.modalPresentationStyle = .fullScreen
-        signUpViewController.modalTransitionStyle = .crossDissolve
-        present(signUpViewController, animated: true, completion: nil)
+        router.toSignUp()
     }
     
     private func checkTextFields() -> Bool {

@@ -103,7 +103,7 @@ class MapViewController: UIViewController {
     }
     
     private func saveRouteInRealm() {
-        try? RealmService.shared?.deleteAll()
+        try? RealmService.shared?.deleteAll(object: MapPoint())
         var points : [MapPoint] = []
         let  pathPointsCount = routePath?.count() ?? 1
         for i in 0...pathPointsCount - 1 {
