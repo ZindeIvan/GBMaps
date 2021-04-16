@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		B58CF1FA261C815E00FEF9B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B58CF1F8261C815E00FEF9B4 /* Main.storyboard */; };
 		B58CF1FC261C816000FEF9B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B58CF1FB261C816000FEF9B4 /* Assets.xcassets */; };
 		B58CF1FF261C816000FEF9B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B58CF1FD261C816000FEF9B4 /* LaunchScreen.storyboard */; };
+		B5B242522620BF8E00C5A7FB /* MapPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B242512620BF8E00C5A7FB /* MapPoint.swift */; };
+		B5B242552620C0FB00C5A7FB /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B242542620C0FB00C5A7FB /* RealmService.swift */; };
 		E6CE508B7EE0DEBD0A320C79 /* Pods_GBMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56EC5B3B98FD587FE2F4FB51 /* Pods_GBMaps.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,8 @@
 		B58CF1FB261C816000FEF9B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B58CF1FE261C816000FEF9B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B58CF200261C816000FEF9B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5B242512620BF8E00C5A7FB /* MapPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPoint.swift; sourceTree = "<group>"; };
+		B5B242542620C0FB00C5A7FB /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,8 @@
 				B58CF1F2261C815E00FEF9B4 /* AppDelegate.swift */,
 				B58CF1F4261C815E00FEF9B4 /* SceneDelegate.swift */,
 				B58CF1F6261C815E00FEF9B4 /* ViewController.swift */,
+				B5B242512620BF8E00C5A7FB /* MapPoint.swift */,
+				B5B242542620C0FB00C5A7FB /* RealmService.swift */,
 				B58CF1F8261C815E00FEF9B4 /* Main.storyboard */,
 				B58CF1FB261C816000FEF9B4 /* Assets.xcassets */,
 				B58CF1FD261C816000FEF9B4 /* LaunchScreen.storyboard */,
@@ -88,7 +94,6 @@
 				44F0C7E3CD55C0BFEAD5123D /* Pods-GBMaps.debug.xcconfig */,
 				A1682ED1010EC16DB7D7858A /* Pods-GBMaps.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -104,6 +109,7 @@
 				B58CF1EC261C815E00FEF9B4 /* Frameworks */,
 				B58CF1ED261C815E00FEF9B4 /* Resources */,
 				A115B4B8371E411E7F16EB81 /* [CP] Copy Pods Resources */,
+				3C89CAB7FD3F6BC281C406E1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -160,6 +166,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3C89CAB7FD3F6BC281C406E1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GBMaps/Pods-GBMaps-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GBMaps/Pods-GBMaps-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GBMaps/Pods-GBMaps-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4C4E5A6663C28396B6B4202A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,8 +230,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B58CF1F7261C815E00FEF9B4 /* ViewController.swift in Sources */,
+				B5B242522620BF8E00C5A7FB /* MapPoint.swift in Sources */,
 				B58CF1F3261C815E00FEF9B4 /* AppDelegate.swift in Sources */,
 				B58CF1F5261C815E00FEF9B4 /* SceneDelegate.swift in Sources */,
+				B5B242552620C0FB00C5A7FB /* RealmService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

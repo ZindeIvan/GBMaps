@@ -33,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c6g-We-PST" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -46,7 +46,27 @@
                             <constraint firstItem="c6g-We-PST" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="nMA-Dw-x0D"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="QAC-Gb-7sg"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="QAC-Gb-7sg">
+                        <barButtonItem key="leftBarButtonItem" title="Load" image="arrow.2.squarepath" catalog="system" id="bOP-hh-4kI">
+                            <connections>
+                                <action selector="loadRecord:" destination="BYZ-38-t0r" id="S0X-4J-vUw"/>
+                            </connections>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Play" image="play" catalog="system" id="vEb-cn-nFR">
+                                <connections>
+                                    <action selector="startRecord:" destination="BYZ-38-t0r" id="K7f-Kg-dXI"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Stop" image="stop" catalog="system" id="owj-F3-5Ur">
+                                <connections>
+                                    <action selector="stopRecord:" destination="BYZ-38-t0r" id="Wf0-OS-yzM"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="mapView" destination="c6g-We-PST" id="nbs-kp-Wmx"/>
                     </connections>
@@ -57,6 +77,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.2.squarepath" catalog="system" width="128" height="89"/>
+        <image name="play" catalog="system" width="120" height="128"/>
+        <image name="stop" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
