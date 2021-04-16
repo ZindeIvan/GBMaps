@@ -44,6 +44,7 @@ class LoginView : UIView {
         textField.layer.cornerRadius = 5.0
         textField.layer.masksToBounds = true
         textField.accessibilityIdentifier = "Login"
+        textField.autocorrectionType = .no
         return textField
     }()
 
@@ -57,6 +58,7 @@ class LoginView : UIView {
         textField.layer.cornerRadius = 5.0
         textField.layer.masksToBounds = true
         textField.accessibilityIdentifier = "Password"
+        textField.isSecureTextEntry = true
         return textField
     }()
 
