@@ -18,6 +18,10 @@ class MapViewController: UIViewController {
         return MapView()
     }()
     
+    private lazy var router : MapRouter = {
+        return MapRouter(controller: self)
+    }()
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -71,6 +75,9 @@ class MapViewController: UIViewController {
                                             for: .touchUpInside)
         mapView.stopRecordButton.addTarget(self,
                                            action: #selector(stopRecordButtonAction),
+                                           for: .touchUpInside)
+        mapView.exitButton.addTarget(self,
+                                           action: #selector(exitButtonAction),
                                            for: .touchUpInside)
     }
     
@@ -138,6 +145,12 @@ class MapViewController: UIViewController {
     @objc private func stopRecordButtonAction(sender: UIButton!) {
         locationManager?.stopUpdatingLocation()
         saveRouteInRealm()
+    }
+    
+    @objc private func exitButtonAction(sender: UIButton!) {
+        locationManager?.stopUpdatingLocation()
+        UserDefaults.standard.set(false, forKey: "isLogin")
+        router.toLogin()
     }
 }
 

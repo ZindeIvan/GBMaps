@@ -10,6 +10,17 @@ import GoogleMaps
 
 class MapView : UIView {
     
+    private(set) var exitButton : UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "x.circle"), for: .normal)
+        button.backgroundColor = .systemGray6
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        button.layer.masksToBounds = true
+        return button
+    }()
+    
     private(set) var loadRouteButton : UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -79,6 +90,7 @@ class MapView : UIView {
         let buttonsHeight : CGFloat = 40.0
         let stackHeight : CGFloat = 50.0
         backgroundColor = .systemGray6
+        buttonsStack.addArrangedSubview(exitButton)
         buttonsStack.addArrangedSubview(loadRouteButton)
         buttonsStack.addArrangedSubview(stopRecordButton)
         buttonsStack.addArrangedSubview(startRecordButton)
@@ -89,6 +101,8 @@ class MapView : UIView {
             buttonsStack.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             buttonsStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             buttonsStack.heightAnchor.constraint(equalToConstant: stackHeight),
+            exitButton.widthAnchor.constraint(equalToConstant: buttonsWidth),
+            exitButton.heightAnchor.constraint(equalToConstant: buttonsHeight),
             stopRecordButton.widthAnchor.constraint(equalToConstant: buttonsWidth),
             stopRecordButton.heightAnchor.constraint(equalToConstant: buttonsHeight),
             loadRouteButton.widthAnchor.constraint(equalToConstant: buttonsWidth),
