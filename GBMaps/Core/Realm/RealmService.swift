@@ -37,6 +37,14 @@ class RealmService {
         }
     }
     
+    //Метод удаления данных 
+    func deleteAll<T: Object>(object: T) throws {
+        let objects = realm.objects(T.self)
+        try realm.write {
+            realm.delete(objects)
+        }
+    }
+    
     //Метод удаления всех данных
     func deleteAll() throws {
         try realm.write {
