@@ -16,6 +16,7 @@ class LoginView : UIView {
         button.backgroundColor = .green
         button.setTitleColor(.black, for: .normal)
         button.setTitleColor(.green, for: .highlighted)
+        button.setTitleColor(.lightGray, for: .disabled)
         button.layer.cornerRadius = 16.0
         button.layer.masksToBounds = true
         button.accessibilityIdentifier = "Login"

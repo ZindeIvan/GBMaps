@@ -9,6 +9,8 @@ import UIKit
 import GoogleMaps
 import CoreLocation
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 class MapViewController: UIViewController {
     
@@ -26,14 +28,9 @@ class MapViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var locationManager: CLLocationManager?
+    private var locationManager = LocationManager.instance
     
-    private var coordinate : CLLocationCoordinate2D? {
-        didSet {
-            guard let coordinate = self.coordinate else { return }
-            setLocation(coordinate: coordinate)
-        }
-    }
+    private let disposeBag = DisposeBag()
     
     private var route: GMSPolyline?
     
@@ -82,11 +79,15 @@ class MapViewController: UIViewController {
     }
     
     private func configureLocationManager() {
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.allowsBackgroundLocationUpdates = true
-        locationManager?.pausesLocationUpdatesAutomatically = false
-        locationManager?.requestWhenInUseAuthorization()
+        locationManager
+            .location
+            .subscribe(onNext: { (location) in
+                guard let location = location else { return }
+                self.routePath?.add(location.coordinate)
+                self.route?.path = self.routePath
+                let position = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 17)
+                self.mapView.mapView.animate(to: position)
+            }).disposed(by: disposeBag)
     }
     
     private func configureCamera() {
@@ -112,7 +113,8 @@ class MapViewController: UIViewController {
     private func saveRouteInRealm() {
         try? RealmService.shared?.deleteAll(object: MapPoint())
         var points : [MapPoint] = []
-        let  pathPointsCount = routePath?.count() ?? 1
+        let  pathPointsCount = routePath?.count() ?? 0
+        guard pathPointsCount > 0 else { return }
         for i in 0...pathPointsCount - 1 {
             guard let pathCoordinate = routePath?.coordinate(at: UInt(i)) else { return }
             let point = MapPoint()
@@ -139,32 +141,17 @@ class MapViewController: UIViewController {
     
     @objc private func startRecordButtonAction(sender: UIButton!) {
         configureRoute()
-        locationManager?.startUpdatingLocation()
+        locationManager.startUpdatingLocation()
     }
     
     @objc private func stopRecordButtonAction(sender: UIButton!) {
-        locationManager?.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
         saveRouteInRealm()
     }
     
     @objc private func exitButtonAction(sender: UIButton!) {
-        locationManager?.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
         UserDefaults.standard.set(false, forKey: "isLogin")
         router.toLogin()
-    }
-}
-
-// MARK: - CLLocationManagerDelegate methods
-extension MapViewController : CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        coordinate = location.coordinate
-        routePath?.add(location.coordinate)
-        route?.path = routePath
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
     }
 }

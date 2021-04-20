@@ -7,6 +7,8 @@
 
 import UIKit
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 class LoginViewController : UIViewController {
 
@@ -19,6 +21,8 @@ class LoginViewController : UIViewController {
     private lazy var router : LoginRouter = {
         return LoginRouter(controller: self)
     }()
+    
+    private let disposeBag = DisposeBag()
     
     // MARK: - init
 
@@ -44,13 +48,12 @@ class LoginViewController : UIViewController {
     // MARK: - Private methods
     
     private func configureUI() {
+        configureLoginBindings()
         loginView.loginButton.addTarget(self, action: #selector(loginButtonAction), for: .touchUpInside)
         loginView.signUpButton.addTarget(self, action: #selector(signUpButtonAction), for: .touchUpInside)
     }
 
     @objc private func loginButtonAction(sender: UIButton!) {
-        
-        guard checkTextFields() else { return }
         
         let user : Results<User>? = RealmService.shared?.loadFromRealm().filter("login == %@", getTextFromField(loginView.loginTextField))
         
@@ -70,12 +73,22 @@ class LoginViewController : UIViewController {
         router.toSignUp()
     }
     
-    private func checkTextFields() -> Bool {
-        return getTextFromField(loginView.loginTextField) != ""
-            && getTextFromField(loginView.passwordTextField) != ""
-    }
-    
     private func getTextFromField(_ textField : UITextField) -> String {
         return textField.text ?? ""
+    }
+    
+    private func configureLoginBindings() {
+        Observable
+            .combineLatest(
+                loginView.loginTextField.rx.text,
+                loginView.passwordTextField.rx.text
+            )
+            .map { login, password in
+                return !(login ?? "").isEmpty && !(password ?? "").isEmpty
+            }
+            .bind { [weak self] inputFilled in
+                self?.loginView.loginButton.isEnabled = inputFilled
+            }
+            .disposed(by: disposeBag)
     }
 }
