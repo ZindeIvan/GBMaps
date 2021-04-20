@@ -81,12 +81,12 @@ class MapViewController: UIViewController {
     private func configureLocationManager() {
         locationManager
             .location
-            .subscribe(onNext: { (location) in
+            .subscribe(onNext: { [weak self] (location) in
                 guard let location = location else { return }
-                self.routePath?.add(location.coordinate)
-                self.route?.path = self.routePath
+                self?.routePath?.add(location.coordinate)
+                self?.route?.path = self?.routePath
                 let position = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 17)
-                self.mapView.mapView.animate(to: position)
+                self?.mapView.mapView.animate(to: position)
             }).disposed(by: disposeBag)
     }
     
