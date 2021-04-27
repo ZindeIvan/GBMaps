@@ -18,6 +18,7 @@
 		B53C6C432626274C0015C1EC /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C422626274C0015C1EC /* LoginRouter.swift */; };
 		B53C6C48262629DA0015C1EC /* SignUpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C47262629DA0015C1EC /* SignUpRouter.swift */; };
 		B53C6C4F262962D10015C1EC /* MapRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C4E262962D10015C1EC /* MapRouter.swift */; };
+		B56C0128262F2F4C00CBD9CB /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C0127262F2F4C00CBD9CB /* LocationManager.swift */; };
 		B58CF1F3261C815E00FEF9B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58CF1F2261C815E00FEF9B4 /* AppDelegate.swift */; };
 		B58CF1F5261C815E00FEF9B4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58CF1F4261C815E00FEF9B4 /* SceneDelegate.swift */; };
 		B58CF1FC261C816000FEF9B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B58CF1FB261C816000FEF9B4 /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 		B53C6C422626274C0015C1EC /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		B53C6C47262629DA0015C1EC /* SignUpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRouter.swift; sourceTree = "<group>"; };
 		B53C6C4E262962D10015C1EC /* MapRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRouter.swift; sourceTree = "<group>"; };
+		B56C0127262F2F4C00CBD9CB /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		B58CF1EF261C815E00FEF9B4 /* GBMaps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBMaps.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B58CF1F2261C815E00FEF9B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B58CF1F4261C815E00FEF9B4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 		B53C6C172624AC160015C1EC /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				B56C0126262F2F3100CBD9CB /* LocationManager */,
 				B53C6C182624AC280015C1EC /* Realm */,
 				B53C6C3C262625E70015C1EC /* Router */,
 			);
@@ -244,6 +247,14 @@
 				B53C6C4E262962D10015C1EC /* MapRouter.swift */,
 			);
 			path = Router;
+			sourceTree = "<group>";
+		};
+		B56C0126262F2F3100CBD9CB /* LocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				B56C0127262F2F4C00CBD9CB /* LocationManager.swift */,
+			);
+			path = LocationManager;
 			sourceTree = "<group>";
 		};
 		B58CF1E6261C815E00FEF9B4 = {
@@ -419,6 +430,7 @@
 				B53C6C1D2624ACB70015C1EC /* MapView.swift in Sources */,
 				B53C6C4F262962D10015C1EC /* MapRouter.swift in Sources */,
 				B53C6C48262629DA0015C1EC /* SignUpRouter.swift in Sources */,
+				B56C0128262F2F4C00CBD9CB /* LocationManager.swift in Sources */,
 				B5B242522620BF8E00C5A7FB /* MapPoint.swift in Sources */,
 				B53C6C102624A9DC0015C1EC /* User.swift in Sources */,
 				B53C6C302625F5070015C1EC /* LoginView.swift in Sources */,

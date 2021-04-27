@@ -8,6 +8,8 @@
 
 import UIKit
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 class SignUpViewController : UIViewController {
 
@@ -20,6 +22,8 @@ class SignUpViewController : UIViewController {
     private lazy var router : SignUpRouter = {
         return SignUpRouter(controller: self)
     }()
+    
+    private let disposeBag = DisposeBag()
     
     // MARK: - init
 
@@ -45,12 +49,11 @@ class SignUpViewController : UIViewController {
     // MARK: - Private methods
     
     private func configureUI() {
+        configureSignUpBindings()
         signUpView.signUpButton.addTarget(self, action: #selector(signUpButtonAction), for: .touchUpInside)
     }
 
     @objc private func signUpButtonAction(sender: UIButton!) {
-        
-        guard checkTextFields() else { return }
         
         let user : Results<User>? = RealmService.shared?.loadFromRealm().filter("login == %@", getTextFromField(signUpView.loginTextField))
         
@@ -70,12 +73,22 @@ class SignUpViewController : UIViewController {
         router.toMap()
     }
     
-    private func checkTextFields() -> Bool {
-        return getTextFromField(signUpView.loginTextField) != ""
-            && getTextFromField(signUpView.passwordTextField) != ""
-    }
-    
     private func getTextFromField(_ textField : UITextField) -> String {
         return textField.text ?? ""
+    }
+    
+    private func configureSignUpBindings() {
+        Observable
+            .combineLatest(
+                signUpView.loginTextField.rx.text,
+                signUpView.passwordTextField.rx.text
+            )
+            .map { login, password in
+                return !(login ?? "").isEmpty && !(password ?? "").isEmpty
+            }
+            .bind { [weak self] inputFilled in
+                self?.signUpView.signUpButton.isEnabled = inputFilled
+            }
+            .disposed(by: disposeBag)
     }
 }
