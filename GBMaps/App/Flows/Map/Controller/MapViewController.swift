@@ -44,6 +44,14 @@ class MapViewController: UIViewController {
     
     private let startingLocation : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 55.751244, longitude: 37.618423)
     
+    private var markerImage : UIImage?
+    
+    private let markerImageKey : String = "markerImage"
+    
+    private let markerImageScale : Int = 85
+    
+    private var marker : GMSMarker?
+    
     // MARK: - LifeCycle
     
     init() {
@@ -53,6 +61,7 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        loadMarkerImage()
         configureCamera()
         configureLocationManager()
     }
@@ -89,7 +98,11 @@ class MapViewController: UIViewController {
                 self?.routePath?.add(location.coordinate)
                 self?.route?.path = self?.routePath
                 let position = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 17)
+                self?.marker?.map = nil
                 self?.mapView.mapView.animate(to: position)
+                self?.marker = GMSMarker(position: location.coordinate)
+                self?.marker?.map = self?.mapView.mapView
+                self?.marker?.icon = self?.markerImage
             }).disposed(by: disposeBag)
     }
     
@@ -176,8 +189,16 @@ extension MapViewController:  UINavigationControllerDelegate, UIImagePickerContr
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let image = extractImage(from: info)
-        print(image!)
+        guard let image = extractImage(from: info) else { return }
+        
+        let scaledImage = image.scalePreservingAspectRatio(
+            targetSize: CGSize(width: markerImageScale, height: markerImageScale)
+        )
+        markerImage = scaledImage
+        DispatchQueue.global(qos: .background).async {
+            self.store(image: scaledImage,
+                       forKey: self.markerImageKey)
+        }
         picker.dismiss(animated: true)
     }
     
@@ -190,4 +211,35 @@ extension MapViewController:  UINavigationControllerDelegate, UIImagePickerContr
             return nil
         }
     }
+}
+
+extension MapViewController {
+    
+    private func store(image: UIImage,
+                       forKey key: String) {
+        if let pngRepresentation = image.pngData() {
+            
+            UserDefaults.standard.set(pngRepresentation,
+                                      forKey: key)
+        }
+    }
+    
+    private func loadMarkerImage() {
+        DispatchQueue.global(qos: .background).async {
+            if let savedImage = self.retrieveImage(forKey: self.markerImageKey) {
+                DispatchQueue.main.async {
+                    self.markerImage = savedImage
+                }
+            }
+        }
+    }
+    
+    private func retrieveImage(forKey key: String) -> UIImage? {
+        if let imageData = UserDefaults.standard.object(forKey: key) as? Data,
+           let image = UIImage(data: imageData) {
+            return image
+        }
+        return nil
+    }
+    
 }

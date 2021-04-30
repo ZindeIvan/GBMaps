@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B51C15DB263C813C00E075E2 /* UIImageScaleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C15DA263C813C00E075E2 /* UIImageScaleExtension.swift */; };
 		B53C6C102624A9DC0015C1EC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C0F2624A9DC0015C1EC /* User.swift */; };
 		B53C6C1D2624ACB70015C1EC /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C1C2624ACB70015C1EC /* MapView.swift */; };
 		B53C6C202624ACC80015C1EC /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53C6C1F2624ACC80015C1EC /* MapViewController.swift */; };
@@ -33,6 +34,7 @@
 		44F0C7E3CD55C0BFEAD5123D /* Pods-GBMaps.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GBMaps.debug.xcconfig"; path = "Target Support Files/Pods-GBMaps/Pods-GBMaps.debug.xcconfig"; sourceTree = "<group>"; };
 		56EC5B3B98FD587FE2F4FB51 /* Pods_GBMaps.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GBMaps.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1682ED1010EC16DB7D7858A /* Pods-GBMaps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GBMaps.release.xcconfig"; path = "Target Support Files/Pods-GBMaps/Pods-GBMaps.release.xcconfig"; sourceTree = "<group>"; };
+		B51C15DA263C813C00E075E2 /* UIImageScaleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageScaleExtension.swift; sourceTree = "<group>"; };
 		B53C6C0F2624A9DC0015C1EC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B53C6C1C2624ACB70015C1EC /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		B53C6C1F2624ACC80015C1EC /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +78,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B51C15D9263C810A00E075E2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B51C15DA263C813C00E075E2 /* UIImageScaleExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		B53C6C122624AA500015C1EC /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +119,7 @@
 		B53C6C172624AC160015C1EC /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				B51C15D9263C810A00E075E2 /* Extensions */,
 				B56C012D2638174A00CBD9CB /* NotificationManager */,
 				B56C0126262F2F3100CBD9CB /* LocationManager */,
 				B53C6C182624AC280015C1EC /* Realm */,
@@ -437,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B51C15DB263C813C00E075E2 /* UIImageScaleExtension.swift in Sources */,
 				B53C6C3A2625F6700015C1EC /* SignUpViewController.swift in Sources */,
 				B56C012F2638176C00CBD9CB /* NotificationManager.swift in Sources */,
 				B53C6C1D2624ACB70015C1EC /* MapView.swift in Sources */,
