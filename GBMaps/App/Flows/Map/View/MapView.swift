@@ -56,6 +56,18 @@ class MapView : UIView {
         return button
     }()
     
+    private(set) var takePhotoButton : UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "camera"), for: .normal)
+        button.setImage(UIImage(systemName: "camera.fill"), for: .focused)
+        button.backgroundColor = .systemGray6
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        button.layer.masksToBounds = true
+        return button
+    }()
+    
     private(set) var buttonsStack : UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -91,6 +103,7 @@ class MapView : UIView {
         let stackHeight : CGFloat = 50.0
         backgroundColor = .systemGray6
         buttonsStack.addArrangedSubview(exitButton)
+        buttonsStack.addArrangedSubview(takePhotoButton)
         buttonsStack.addArrangedSubview(loadRouteButton)
         buttonsStack.addArrangedSubview(stopRecordButton)
         buttonsStack.addArrangedSubview(startRecordButton)
@@ -103,6 +116,8 @@ class MapView : UIView {
             buttonsStack.heightAnchor.constraint(equalToConstant: stackHeight),
             exitButton.widthAnchor.constraint(equalToConstant: buttonsWidth),
             exitButton.heightAnchor.constraint(equalToConstant: buttonsHeight),
+            takePhotoButton.widthAnchor.constraint(equalToConstant: buttonsWidth),
+            takePhotoButton.heightAnchor.constraint(equalToConstant: buttonsHeight),
             stopRecordButton.widthAnchor.constraint(equalToConstant: buttonsWidth),
             stopRecordButton.heightAnchor.constraint(equalToConstant: buttonsHeight),
             loadRouteButton.widthAnchor.constraint(equalToConstant: buttonsWidth),
