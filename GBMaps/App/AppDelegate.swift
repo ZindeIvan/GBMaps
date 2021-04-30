@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         GMSServices.provideAPIKey("AIzaSyC9yOsQZEy-XAMxdKXRuOmqT5O7-408W_U")
         GMSPlacesClient.provideAPIKey("AIzaSyC9yOsQZEy-XAMxdKXRuOmqT5O7-408W_U")
+        NotificationManager.instance.configureNotificationManager()
         return true
     }
 

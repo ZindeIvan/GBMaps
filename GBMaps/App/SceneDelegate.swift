@@ -60,6 +60,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let blurredImage = applyBlur(on: createScreenshoot() ?? UIImage(), whithBlurFactor: 5.0)
         blurredSecureView = UIImageView(image: blurredImage)
         window?.addSubview(blurredSecureView!)
+        NotificationManager.instance.makeReturnToAppNotification()
     }
     
     func createScreenshoot() -> UIImage? {
