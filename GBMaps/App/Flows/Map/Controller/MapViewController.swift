@@ -74,8 +74,11 @@ class MapViewController: UIViewController {
                                            action: #selector(stopRecordButtonAction),
                                            for: .touchUpInside)
         mapView.exitButton.addTarget(self,
-                                           action: #selector(exitButtonAction),
-                                           for: .touchUpInside)
+                                     action: #selector(exitButtonAction),
+                                     for: .touchUpInside)
+        mapView.takePhotoButton.addTarget(self,
+                                          action: #selector(takePhotoButtonAction),
+                                          for: .touchUpInside)
     }
     
     private func configureLocationManager() {
@@ -132,7 +135,7 @@ class MapViewController: UIViewController {
         points?.forEach { routePath?.add(CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)) }
         route?.path = routePath
     }
-
+    
     @objc private func loadRouteButtonAction(sender: UIButton!) {
         loadRouteFromRealm()
         let bounds = GMSCoordinateBounds(path: routePath ?? GMSMutablePath())
@@ -153,5 +156,38 @@ class MapViewController: UIViewController {
         locationManager.stopUpdatingLocation()
         UserDefaults.standard.set(false, forKey: "isLogin")
         router.toLogin()
+    }
+    
+    @objc private func takePhotoButtonAction(sender: UIButton!) {
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else { return }
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
+        imagePickerController.delegate = self
+        
+        present(imagePickerController, animated: true)
+    }
+}
+
+extension MapViewController:  UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = extractImage(from: info)
+        print(image!)
+        picker.dismiss(animated: true)
+    }
+    
+    private func extractImage(from info: [UIImagePickerController.InfoKey : Any]) -> UIImage? {
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            return image
+        } else if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            return image
+        } else {
+            return nil
+        }
     }
 }
